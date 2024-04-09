@@ -1,0 +1,92 @@
+// AUTO BOT ON TELE WEB https://web.telegram.org/k
+// SHOW DATA: _sup.local.get('ids')[this.location.href.substring(this.location.href.lastIndexOf('#'))]
+const LOCAL_KEY = 'teleAutoClick';
+const _sup = {
+  _pr: (fun = () => void 0, time_out = 1e2) => new Promise(rs => { let data = fun(); time_out ? setTimeout(rs, time_out) : rs(data); return data; }),
+  _log: (txt, color = '#fff', size = '1rem', weight = '100') => console.log(`%c${txt}`, `font-size:${size};color:${color};font-weight:${weight};`),
+  local: {
+    get: (key) => {
+      let localKey = LOCAL_KEY || 'studev';
+      _sup._log(`Get data by ${localKey}.${key}`, '#20b7ff', undefined, 'bolder');
+      return JSON.parse(localStorage.getItem(localKey))?.[key];
+    },
+    set: (key, curent_data) => {
+      let localKey = LOCAL_KEY || 'studev';
+      _sup._log(`Data saving to ${localKey}.${key}`, '#20b7ff', undefined, 'bolder');
+      let pre_data = JSON.parse(localStorage.getItem(localKey) || '{}');
+      let data = Object.assign(pre_data, { [key]: curent_data });
+      localStorage.setItem(localKey, JSON.stringify(data));
+      _sup._log(`The ${localKey}.${key} has been saved.`, '#20b7ff', undefined, 'bolder');
+    }
+  },
+  _do: {
+    evt: (e = new HTMLElement) => (e || document.body).addEventListener,
+    click: (element, time_out) => _sup._pr(() => element?.click(), time_out),
+    get: (select = '', element) => (element || document).querySelector(select),
+    geties: (select = '', element) => (element || document).querySelectorAll(select),
+    includes: (txt = '', ...args) => {
+      txt = txt.replaceAll(/\s/g, ' ').toLocaleUpperCase();
+      return args.find(arg => txt.includes(arg.toLocaleUpperCase()));
+    },
+    setAttr: (element, attrs = {}) => {
+      let keys = Object.keys(attrs);
+      for (const key of keys) element.setAttribute(key, attrs[key]);
+      return element;
+    },
+    create: (e = 'div', attrs = {}) => {
+      let element = document.createElement(e);
+      return _sup._do.setAttr(element, attrs);
+    }
+  }
+};
+
+; (async (agr = { from: undefined, smsFromId: 6063850614 }, call_stacks) => {
+  const { _log, _pr, _do, local } = _sup;
+  // BEGIN CODE
+  let { from, smsFromId } = agr;
+  let local_key = {
+    ids: 'ids',
+    group_key: from.substring(from.lastIndexOf('#'))
+  }
+  let st = {
+    peerId_attr: 'data-peer-id',
+  }
+
+  let a = _do.create('a', { href: '', [st.peerId_attr]: '' });
+  var ids = local.get(local_key.ids)[local_key.group_key];
+  console.log(ids);
+
+  for (let id of ids) {
+    await _do.click(_do.setAttr(a, { href: `#${id}`, [st.peerId_attr]: id }));
+    await _do.click(_do.get('[data-offset="commands"] button'));
+    await _do.click(_do.get('.emoji-category .emoji'));
+    await _pr(void 0, 1e3);
+  }
+
+  for (let id of ids) {
+    await _do.click(_do.setAttr(a, { href: `#${smsFromId}`, [st.peerId_attr]: smsFromId }), 300);
+    await _do.click(_do.get('.time-inner', _do.get('[data-callback="joinchat"]').parentElement));
+    await _do.click(_do.get('.chat-input-main .selection-container-forward'), 1e3);
+    await _do.click(_do.get(`.popup-container [data-peer-id="${id}"]`), 500);
+    await _do.click(_do.get(`#column-center .active .btn-send-container button`));
+  }
+
+  // for (let id of ids) {
+  //   await _do.click(_do.get(`[data-peer-id="${id}"]`));
+  //   await _do.click(_do.get('#column-center .active .sidebar-header button:nth-child(9)'))
+  //   await _do.click(_do.get("#column-center .active .active.was-open > .danger"))
+  //   await _do.click(_do.get(".popup-delete-chat input"))
+  //   await _do.click(_do.get(".popup-delete-chat .danger > div"))
+  // }
+
+  // END CODE
+  _log('SESSION CLOSED', 'ORANGE', '1.2rem', 'bolder');
+})(
+  {
+    from: 'https://web.telegram.org/k/#@OSpay008members',
+    smsFromId: '6063850614'
+  },
+  10 // CALL-STACKs
+)
+
+//https://t.me/+lN12eQq_u1g4ZjI0
