@@ -84,16 +84,8 @@ const _sup = {
             ],
             scroll: '#container > div.contact-pages.page-container > div.card-list-wrapper > div > div:nth-child(1) > div > div:nth-child(1) > div > div',
             inform: { geties: '.friend-info', jsTxtCompare: '.name' },
-            grCounter: '[data-translate-inner="STR_GROUP_LIST_COUNTER"]',
-            grCounter_agr: 'data-translate-text-arguments',
         },
-        leaveGroup: {
-            option: '[icon="ic_them"]',
-            leave: [
-                '.popover-v3>.zmenu-body>div>div>div-14',
-                '[data-translate-inner="STR_COMMUNITY_LEAVEGROUP_MENU"]'
-            ]
-        }
+
     }
 
     let groupCounter = await (async (table) => {
@@ -128,24 +120,20 @@ const _sup = {
     })('group');
 
     async function to_group(named, isConform) {
-        await clicker(...steps.toGroup.contact);
-        return await _do.scrollTo(steps.toGroup.inform, named, groupCounter, isConform);
-    }
-
-    async function leaveGroup(group) {
-        if (!group) return;
-        await _do.click(_do.get(steps.leaveGroup.option, group.parentElement), 1e2);
-        await clicker(...steps.leaveGroup.leave);
-        --groupCounter;
+        let { scroll, contact, inform } = steps.toGroup;
+        await pr(_ => _do.get(scroll)?.scrollIntoView(1), 1e2);
+        await clicker(...contact);
+        return await _do.scrollTo(inform, named, groupCounter, isConform);
     }
 
     if (Array.isArray(agr.groupNamed || (agr.groupNamed = _local.get('groups')))) {
         for (let named of agr.groupNamed) {
-            await pr(_ => _do.get(steps.toGroup.scroll)?.scrollIntoView(1), 1e2);
-            named = await to_group(named, false)
-            await leaveGroup(named)
+            let group = await to_group(named, false);
+            
         }
-    } else await leaveGroup(await to_group(agr.groupNamed))
+    } else {
+        let group = await to_group(agr.groupNamed);
+    }
 
 
     // END CODE

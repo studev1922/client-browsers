@@ -108,7 +108,8 @@ const _do = {
         }
     }
 
-    async function load_contact_sms() {
+    async function load_contact_sms(on = 0) {
+        console.log(on);
         let contact = _do.get(st.contact.tab);
         if (contact) {
             await _do.click(contact, 200); // DANH BẠ   
@@ -127,6 +128,7 @@ const _do = {
         localStorage.setItem(st.LC_KEY, JSON.stringify(newObj));
     }
 
+    let cMems, cMemRlt;
     state.is_alive = true; // ON START
     ; (async () => {
         await new Promise(() => {
@@ -142,7 +144,7 @@ const _do = {
 
         log('KIỂM TRA TRẠNG THÁI...', 'cornflowerblue', '2rem', 'bolder');
         await load_contact_sms();
-        let cMems, cMemRlt, e = _do.get(st.mem.sts_mem)?.parentNode.innerText;
+        let e = _do.get(st.mem.sts_mem)?.parentNode.innerText;
 
         if (e && (cMems = Number(e.substring(e.indexOf('(') + 1, e.indexOf(')'))))
             > (cMemRlt = _do.geties(st.mem.item).length)) {
@@ -151,8 +153,10 @@ const _do = {
         }
     })();
 
+
+    let on = Math.floor((cMemRlt - at) / 18);
     do try {
-        await load_contact_sms(); // [1] VÀO NHÓM CHỈ ĐỊNH
+        await load_contact_sms(on); // [1] VÀO NHÓM CHỈ ĐỊNH
         if (await sms_user() && --state.c_down < 1) {
             log(`ĐÃ HẾT PHIÊN GỬI, CHỜ ${s_time / 1e3}s.`, '#20b7ff', '1.2rem', 'bolder');
             saveData(); await _pr(void 0, s_time);
@@ -173,7 +177,7 @@ const _do = {
     5 // VỊ TRÍ
     , 15 // SỐ LẦN GỬI SAU ĐÓ CHỜ
     , 1e3 * 60 * 12 // THỜI GIAN CHỜ
-    , 'hàng tạp hóa' // NHÓM CẦN TƯƠNG TÁC
+    , 'ngọc nhi 29' // NHÓM CẦN TƯƠNG TÁC
     , `https://zalo.me/g` // TRÁNH TIN NHẮN
     , ['fruit', 'food', 'trái cây', 'bị khóa', 'ngừng hoạt động'] // BỎ QUA NHỮNG NGƯỜI CÓ TÊN
 )

@@ -50,14 +50,15 @@ const state = {
 
     // ADD FRIENDS FUNCTION
     const add_friend = async () => {
-        let name, role, doit = _do.geties(st.af.mems)[++at]; // USER
+        let name, role, doit = _do.geties(st.af.mems)[1]; // USER
         const condition = () => (role = doit.querySelector(st.af.role)?.innerText)?.length // ISN'T OWNER || ADMIN
             || _do.includes(name = doit.querySelector(st.af.name).innerText, ...avoid_users);
 
         if (doit && !condition()) {
+            doit.scrollIntoView(1)
             await _do.click(_do.get(st.af.btnAF, doit), 50); // KẾT BẠN
             await _do.click(_do.get(st.af.btnAFAdd), 50); // GỬI KẾT BẠN
-            console.info(state.recordSet = { name, role, at }, --count);
+            console.info(state.recordSet = { name, role }, --count);
         } else await _pr(void 0, 10);
     };
     do await add_friend(); while (count);

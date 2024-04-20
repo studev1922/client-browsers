@@ -63,10 +63,10 @@ const _sup = {
         await _do.click(_do.get('[data-translate-title="STR_COMMUNITY_ADD_FRIEND_TO_GROUP"]'), 3e2);
         if (lastMem) {
             let isRun = true;
-            while (isRun) await _pr(_ => { isRun = scrollToMem(isRun) }, 5e2);
+            while (isRun) await _pr(_ => { isRun = scrollToMem(isRun) }, 30);
         }
         let i = 0; do await _pr(_ => { i = checkActive(i) }, 5e2); while (i < 50);
-        await _do.click(_do.get('[data-translate-inner="STR_CONFIRM"]'), 2.5e2);
+        await _do.click(_do.get('[data-translate-inner="STR_CONFIRM"]'), 1e3);
         console.log(lastMem);
     }
 
