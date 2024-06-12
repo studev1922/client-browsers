@@ -169,6 +169,8 @@ const _sup = {
     true, // SAVE DATA TO LOCAL_STORE
     {
         groupNamed: undefined,
-        avoidGr: ['68', 'Ngọc nhi']
+        avoidGr: [
+            '68', 'Ngọc nhi'
+        ]
     }
-)
+) // _sup._local.set('groups', {})

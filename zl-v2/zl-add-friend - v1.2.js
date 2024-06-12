@@ -93,7 +93,6 @@ const _sup = {
 })(
     false, // SAVE DATA TO LOCAL_STORE
     {
-        groupNamed: undefined,
-        avoidGr: ['68', 'Ngọc nhi']
+        avoids: ['68', 'Ngọc nhi']
     }
 )
